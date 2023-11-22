@@ -76,7 +76,6 @@ const deleteFeedback = createAsyncThunk("feedbacks/deletefeedback", async (id) =
 
 const initialState = {
     feedbacks: [],
-    user: null,
     status: "idle"
 }
 

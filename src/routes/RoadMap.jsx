@@ -1,7 +1,7 @@
-import React from "react";
+
 import { HiOutlineChevronLeft, HiOutlinePlus } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import Button, { BTN_VARS } from "../components/Button";
+import Button from "../components/Button";
 
 import { useState } from "react";
 import RoadmapList from "../components/RoadmapList";
@@ -48,6 +48,7 @@ const RoadMap = () => {
 						const count = feedbacks.filter((pr) => pr.status === r).length;
 						return (
 							<RoadmapNav
+								key={r}
 								isActive={isActive}
 								title={r}
 								onClick={() => setCurrentRoadmap(roadmaps[i])}
@@ -61,6 +62,7 @@ const RoadMap = () => {
 						const values = feedbacks.filter((pr) => pr.status === r);
 						return (
 							<RoadmapList
+								key={r + "list"}
 								currentRoadmap={currentRoadmap}
 								roadmap={r}
 								values={values}

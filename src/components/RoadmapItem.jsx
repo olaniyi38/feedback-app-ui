@@ -1,7 +1,7 @@
 import { FaChevronUp, FaComment } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { selectLikes } from "../features/user/userSelector";
+import { selectLikes, selectUser } from "../features/user/userSelector";
 import { likeFeedback } from "../features/feedbacks/feedbacksSlice";
 import { selectFeedbacks } from "../features/feedbacks/feedbackSelector";
 import { useState } from "react";
@@ -19,7 +19,7 @@ const RoadmapItem = ({ data }) => {
 	const dispatch = useDispatch();
 	const feedbacks = useSelector(selectFeedbacks);
 	const [isDisabled, setIsDisabled] = useState(false);
-	const user = useSelector((state) => state.feedbacks.user);
+	const user = useSelector(selectUser)
 	const username = user.username;
 	const likes = user.likes;
 	const isLiked = id in likes;
@@ -72,11 +72,10 @@ const RoadmapItem = ({ data }) => {
 				<button
 					disabled={isDisabled}
 					onClick={() => likeAFeedback(id)}
-					className={`flex self-start text-sm group  disabled:bg-slate-300 group disabled:text-slate-500 items-center gap-2 p-2 rounded-md ${
-						isLiked
-							? "bg-blue-600 text-white hover:bg-blue-700"
-							: "bg-blue-50 text-blue-950 hover:bg-blue-200"
-					}  transition-colors group-disabled:500 `}
+					className={`flex self-start text-sm group  disabled:bg-slate-300 group disabled:text-slate-500 items-center gap-2 p-2 rounded-md ${isLiked
+						? "bg-blue-600 text-white hover:bg-blue-700"
+						: "bg-blue-50 text-blue-950 hover:bg-blue-200"
+						}  transition-colors group-disabled:500 `}
 				>
 					<FaChevronUp
 						className={`${isLiked ? "fill-white" : "fill-blue-600"}`}

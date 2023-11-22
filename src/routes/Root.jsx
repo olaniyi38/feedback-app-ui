@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import FeedBacks from "../components/FeedBacks";
 import Nav from "../components/Nav";
 import { selectFeedbacks } from "../features/feedbacks/feedbackSelector";
