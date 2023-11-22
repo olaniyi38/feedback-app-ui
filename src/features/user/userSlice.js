@@ -38,9 +38,8 @@ const signInUser = createAsyncThunk("user/sign-in", async (userCred) => {
         credentials: "include"
     }).catch((err) => { throw new Error(err) })
 
-    if (res.status > 200 && res.status < 299) {
+    if (res.status >= 200 && res.status <= 299) {
         const user = await res.json()
-
         return user
     }
     const error = await res.json()
