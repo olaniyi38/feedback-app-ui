@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { useSelector } from "react-redux";
 import { selectStatus } from "../features/feedbacks/feedbackSelector";
 

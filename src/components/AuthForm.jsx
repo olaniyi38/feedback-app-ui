@@ -7,33 +7,58 @@ import { useNavigate } from "react-router-dom";
 import { signInUser, signUpUser } from "../features/user/userSlice";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 const AuthForm = ({ type }) => {
-	const { handleSubmit, register, formState } = useForm();
+	const { handleSubmit, register, formState, reset } = useForm();
 	const errors = formState.errors;
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		reset({
+			username: '',
+			password: '',
+			confirm_password: '',
+			name: ''
+		})
+	}, [type])
 
 	async function signUp(data) {
 		if (data.password !== data.confirm_password) {
 			toast.error("Passwords don't match");
 			return;
 		}
-		await dispatch(signUpUser(data))
-			.unwrap()
-			.then(async () => {
-				navigate("/");
+		try {
+			await dispatch(signUpUser(data)).unwrap()
+			navigate("/");
+
+			try {
 				await dispatch(fetchFeedbacks()).unwrap();
-			});
+			} catch (error) {
+				toast.error("error fetching feedbacks")
+			}
+		} catch (error) {
+			toast.error("user already exists")
+			console.log(error)
+		}
+
 	}
 
 	async function signIn(data) {
-		await dispatch(signInUser(data))
-			.unwrap()
-			.then(async () => {
-				navigate("/");
+		try {
+			await dispatch(signInUser(data)).unwrap()
+			try {
+					navigate("/");
 				await dispatch(fetchFeedbacks()).unwrap();
-			});
+			} catch (error) {
+				toast.error("error fetching feedbacks")
+			}
+		} catch (error) {
+			toast.error("username or password is incorrect")
+			console.log("err")
+			console.log(error)
+		}
 	}
 
 	async function submitHandler(data) {

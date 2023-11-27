@@ -1,16 +1,17 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import FormInput from "./FormInput";
 import Button from "./Button";
 import { useNavigate } from "react-router-dom";
 import { ObjectId } from "bson";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createFeedback } from "../features/feedbacks/feedbacksSlice";
 import { toast } from "react-toastify";
+import { selectUser } from "../features/user/userSelector";
 
 const CATEGORIES = ["ui", "ux", "enhancement", "bug", "feature"];
 
 const AddFeedbackForm = () => {
+	const user = useSelector(selectUser)
 	const { register, formState, handleSubmit } = useForm();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -24,6 +25,7 @@ const AddFeedbackForm = () => {
 			upvotes: 0,
 			status: "suggestion",
 			comments: [],
+			by: user.username
 		};
 		toast
 			.promise(dispatch(createFeedback(feedback)).unwrap(), {

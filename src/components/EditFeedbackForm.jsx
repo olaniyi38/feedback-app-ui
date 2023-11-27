@@ -1,33 +1,42 @@
-import React from "react";
+/* eslint-disable react/prop-types */
 import { useForm } from "react-hook-form";
 import FormInput from "./FormInput";
 import Button from "./Button";
 import { useNavigate } from "react-router-dom";
-import generateRandomId from "../helpers/randomNum";
 import { useDispatch, useSelector } from "react-redux";
 import {
-	createFeedback,
 	deleteFeedback,
 	editFeedback,
 } from "../features/feedbacks/feedbacksSlice";
 import { toast } from "react-toastify";
 import { selectFeedbacks } from "../features/feedbacks/feedbackSelector";
 import { useState } from "react";
+import { selectUser } from "../features/user/userSelector";
+import { useEffect } from "react";
 
 const CATEGORIES = ["ui", "ux", "enhancement", "bug", "feature"];
 
 const EditFeedbackForm = ({ id }) => {
 	const feedbacks = useSelector(selectFeedbacks);
+	const user = useSelector(selectUser)
 	const feedback = feedbacks.find((fb) => fb.id === id);
 	const { title, category, status, description } = feedback;
 	const { register, formState, handleSubmit } = useForm({
 		defaultValues: { title, category, status, description },
 	});
+
 	const [deleteActive, setDeleteActive] = useState(false);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	const errors = formState.errors;
+
+
+	useEffect(() => {
+		if (feedback.by !== user.username) {
+			navigate(-1)
+		}
+	}, [feedback.by, navigate, user.username])
 
 	async function onSubmit(data) {
 		const newFeedback = {
@@ -35,7 +44,7 @@ const EditFeedbackForm = ({ id }) => {
 			...data,
 		};
 
-		console.log(newFeedback);
+		
 		await toast
 			.promise(dispatch(editFeedback(newFeedback)).unwrap(), {
 				success: "Feedback updated",

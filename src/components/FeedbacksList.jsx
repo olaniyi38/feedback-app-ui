@@ -1,4 +1,5 @@
-import React from "react";
+/* eslint-disable react/prop-types */
+
 import FeedBack from "./FeedBack";
 import { PiMagnifyingGlassDuotone } from "react-icons/pi";
 import { Link } from "react-router-dom";

@@ -3,10 +3,10 @@ import { likeFeedback } from "../feedbacks/feedbacksSlice";
 import { toast } from "react-toastify";
 
 const fetchUser = createAsyncThunk("user/getUser", async () => {
-    const res = await fetch("https://go-feedback-api.onrender.com/fetch-user", {
+    const res = await fetch("http://localhost:4000/fetch-user", {
         credentials: "include"
     })
-    if (res.status === 200) {
+    if (res.status >= 200 && res.status <= 299) {
         const user = await res.json()
         return user
     }
@@ -14,45 +14,47 @@ const fetchUser = createAsyncThunk("user/getUser", async () => {
 })
 
 const signUpUser = createAsyncThunk("user/sign-up", async (user) => {
-    const res = await fetch("https://go-feedback-api.onrender.com/auth/sign-up", {
+    const res = await fetch("http://localhost:4000/auth/sign-up", {
         method: "POST",
         body: JSON.stringify(user),
         credentials: "include"
 
-    }).catch((err) => { throw new Error(err) })
-
-    if (res.status === 200) {
-        const user = await res.json()
-        return user
-    }
-    const error = await res.json()
-
-    throw new Error(error.message)
-
-})
-
-const signInUser = createAsyncThunk("user/sign-in", async (userCred) => {
-    const res = await fetch("https://go-feedback-api.onrender.com/auth/sign-in", {
-        method: "POST",
-        body: JSON.stringify(userCred),
-        credentials: "include"
-    }).catch((err) => { throw new Error(err) })
+    })
 
     if (res.status >= 200 && res.status <= 299) {
         const user = await res.json()
         return user
     }
     const error = await res.json()
-    throw new Error(error.message)
+
+    throw error
+
+})
+
+const signInUser = createAsyncThunk("user/sign-in", async (userCred) => {
+    const res = await fetch("http://localhost:4000/auth/sign-in", {
+        method: "POST",
+        body: JSON.stringify(userCred),
+        credentials: "include"
+    })
+
+    const data = await res.json()
+    if (res.status >= 200 && res.status <= 299) {
+        return data
+    }
+
+    const error = data
+    console.log(error)
+    throw error
 
 })
 
 const logOutUser = createAsyncThunk("user/logout", async () => {
-    const res = await fetch("https://go-feedback-api.onrender.com/auth/logout", {
+    const res = await fetch("http://localhost:4000/auth/logout", {
         method: "POST",
         credentials: "include"
     })
-    if (res.status === 200) {
+    if (res.status >= 200 && res.status <= 299) {
         return
     }
     throw new Error("error logging out")
@@ -96,7 +98,7 @@ const userSlice = createSlice({
             state.user = action.payload
         }).addCase(signInUser.rejected, (state, action) => {
             state.status = "failed"
-            toast.error(action.error.message)
+            console.log(action)
         }).addCase(likeFeedback.fulfilled, (state, action) => {
             const { newLikes } = action.payload
             state.user.likes = newLikes

@@ -42,6 +42,8 @@ const FeedBackPage = () => {
 		user: { ...currentUser },
 	};
 
+	
+
 	function addComment() {
 		const newFeedback = {
 			...feedback,
@@ -72,7 +74,7 @@ const FeedBackPage = () => {
 						<span className="text-slate-700">Go Back</span>
 					</GoBackButton>
 					<Link to={`/edit-feedback/${id}`}>
-						<Button variant={"blue"}>Edit Feedback</Button>
+						<Button disabled={feedback.by !== currentUser.username} variant={"blue"}>Edit Feedback</Button>
 					</Link>
 				</header>
 
