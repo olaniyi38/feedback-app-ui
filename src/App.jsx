@@ -78,12 +78,12 @@ const App = () => {
 			await dispatch(fetchUser()).unwrap()
 				.then(async () => {
 					await dispatch(fetchFeedbacks()).unwrap()
-				}).catch(() => {
-
+				}).catch((error) => {
+                    console.log(error)
 				})
 		}
 		init();
-	}, [dispatch]);
+	}, []);
 
 	return (
 		<main className="bg-blue-50 min-h-[100vh]">

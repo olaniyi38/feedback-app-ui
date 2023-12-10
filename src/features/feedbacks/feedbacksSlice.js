@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 const fetchFeedbacks = createAsyncThunk("feedbacks/fetchFeedbacks", async () => {
-    const res = await fetch("http://localhost:4000/feedbacks", {
+    const res = await fetch("https://go-feedback-api.onrender.com/feedbacks", {
         credentials: "include"
     });
     if (res.status === 401) {
@@ -14,28 +14,20 @@ const fetchFeedbacks = createAsyncThunk("feedbacks/fetchFeedbacks", async () => 
 })
 
 
-const likeFeedback = createAsyncThunk("feedbacks/like-feedback", async ({ newFeedback, newLikes, username }) => {
-    const res1 = await fetch("http://localhost:4000/like-feedback", {
+const likeFeedback = createAsyncThunk("feedbacks/like-feedback", async ({ newFeedback, newLikes, id }) => {
+    const res = await fetch("https://go-feedback-api.onrender.com/like-feedback", {
         method: "PATCH",
-        body: JSON.stringify({ username, likes: { ...newLikes } }),
+        body: JSON.stringify({ id, likes: { ...newLikes }, upvotes: newFeedback.upvotes }),
         credentials: "include"
     })
-    if (res1.status !== 200) {
-        throw new Error("something went wrong")
-    }
-    const res2 = await fetch("http://localhost:4000/edit-feedback", {
-        method: "PUT",
-        body: JSON.stringify(newFeedback),
-        credentials: "include"
-    })
-    if (res2.status !== 200) {
+    if (res.status !== 200) {
         throw new Error("something went wrong")
     }
     return { newFeedback, newLikes }
 })
 
 const editFeedback = createAsyncThunk("feedbacks/edit-feebacks", async (data) => {
-    const res = await fetch("http://localhost:4000/edit-feedback", {
+    const res = await fetch("https://go-feedback-api.onrender.com/edit-feedback", {
         method: "PUT",
         body: JSON.stringify(data),
         credentials: "include"
@@ -49,7 +41,7 @@ const editFeedback = createAsyncThunk("feedbacks/edit-feebacks", async (data) =>
 })
 
 const createFeedback = createAsyncThunk("feedbacks/create-feedback", async (newFeedback) => {
-    const res = await fetch("http://localhost:4000/create-feedback", {
+    const res = await fetch("https://go-feedback-api.onrender.com/create-feedback", {
         method: "POST",
         body: JSON.stringify(newFeedback),
         credentials: "include"
@@ -63,7 +55,7 @@ const createFeedback = createAsyncThunk("feedbacks/create-feedback", async (newF
 })
 
 const deleteFeedback = createAsyncThunk("feedbacks/deletefeedback", async (id) => {
-    const res = await fetch(`http://localhost:4000/delete-feedback/${id}`, {
+    const res = await fetch(`https://go-feedback-api.onrender.com/delete-feedback/${id}`, {
         method: "DELETE",
         credentials: "include"
     })

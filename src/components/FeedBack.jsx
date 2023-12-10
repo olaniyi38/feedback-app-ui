@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { FaChevronUp, FaComment } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,14 +35,14 @@ const FeedBack = ({ data }) => {
 		if (!isLiked) {
 			newLikes[feedbackId] = {};
 			newFeedback.upvotes++;
-			await dispatch(likeFeedback({ newFeedback, newLikes, username }))
+			await dispatch(likeFeedback({ newFeedback, newLikes, id }))
 				.unwrap()
 				.then(() => setIsDisabled(false));
 			return;
 		}
 		newFeedback.upvotes--;
 		delete newLikes[feedbackId];
-		await dispatch(likeFeedback({ newFeedback, newLikes, username }))
+		await dispatch(likeFeedback({ newFeedback, newLikes, id }))
 			.unwrap()
 			.then(() => setIsDisabled(false));
 	}
@@ -63,16 +65,14 @@ const FeedBack = ({ data }) => {
 				<button
 					disabled={isDisabled}
 					onClick={() => likeAFeedback(id)}
-					className={`flex self-start disabled:bg-slate-300 group disabled:text-slate-500 text-sm md:flex-col min-w-[2.5rem]  items-center gap-2 p-2 rounded-md ${
-						isLiked
+					className={`flex self-start disabled:bg-slate-300 group disabled:text-slate-500 text-sm md:flex-col min-w-[2.5rem]  items-center gap-2 p-2 rounded-md ${isLiked
 							? "bg-blue-600 text-white hover:bg-blue-700"
 							: "bg-blue-50 text-blue-950 hover:bg-blue-200"
-					}  transition-colors `}
+						}  transition-colors `}
 				>
 					<FaChevronUp
-						className={`${
-							isLiked ? "fill-white" : "fill-blue-600"
-						} group-disabled:fill-slate-500`}
+						className={`${isLiked ? "fill-white" : "fill-blue-600"
+							} group-disabled:fill-slate-500`}
 					/>
 					{upvotes}
 				</button>
