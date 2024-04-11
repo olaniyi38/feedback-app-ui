@@ -1,17 +1,14 @@
 import { FaBars } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-	selectFeedbacks,
-	selectStatus,
-} from "../store/feedbacks/feedbackSelector";
+import { selectFeedbacks } from "../store/feedbacks/feedbackSelector";
 import Button from "./Button";
 import { logOutUser } from "../store/user/userSlice";
 import { useNavigate } from "react-router-dom";
-import React from "react";
+
 import { AppDispatch } from "../store/store";
 import { CATEGORIES } from "./AddFeedbackForm";
-import { ChangeEvent } from "react";
+
 import { ROADMAPS } from "../routes/RoadMap";
 
 type NavProps = {
@@ -40,7 +37,7 @@ const Nav = ({
 
 	const mobileNavClasses = `mobile-nav ${
 		mobileNavActive ? "active" : ""
-	} fixed right-0 h-full bg-blue-50 p-6 shadow-md md:shadow-none max-w-[80%] sm:max-w-[70%] md:max-w-none md:p-0 md:bg-none top-22 md:static`;
+	} fixed right-0 h-full bg-blue-50 p-6 shadow-md md:shadow-none max-[400px]:max-w-[80%] max-w-[65%] md:max-w-none md:p-0 md:bg-none top-22 md:static`;
 
 	return (
 		<nav className="relative z-[20] lg:sticky top-0  h-full lg:w-60 md:flex md:gap-6 lg:flex-col justify-between lg:justify-normal lg:py-0 md:py-10 md:p-0  text-white">
@@ -85,7 +82,7 @@ const Nav = ({
 						</Link>
 					</div>
 					<div className="text-slate-700 space-y-2 flex-none  capitalize">
-						{Object.values(ROADMAPS).map((r, i) => {
+						{Object.values(ROADMAPS).map((r) => {
 							const count = feedbacks.filter((fb) => fb.status === r).length;
 							return (
 								<div
@@ -101,13 +98,13 @@ const Nav = ({
 					</div>
 				</div>
 
-				{/* <div className="flex-none">
+				<div className="flex-none">
 					<Button
 						onClick={logOut}
 						variant="red">
 						Logout
 					</Button>
-				</div> */}
+				</div>
 			</div>
 		</nav>
 	);

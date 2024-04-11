@@ -2,13 +2,12 @@
 import { useSelector } from "react-redux";
 import { selectStatus } from "../store/feedbacks/feedbackSelector";
 import { ReactNode } from "react";
-import React from "react";
+
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
-import { FeedBack } from "../store/feedbacks/feedbacksSlice";
+ 
 import { InputHTMLAttributes } from "react";
 import { TextareaHTMLAttributes } from "react";
-import { CATEGORIES } from "./AddFeedbackForm";
-import { UserCredentials } from "./AuthForm";
+ 
 
 const FormInput = ({ children }: { children: ReactNode }) => {
 	return <div className="flex flex-col gap-y-4">{children}</div>;

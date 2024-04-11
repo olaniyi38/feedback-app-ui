@@ -8,7 +8,6 @@ import { signInUser, signUpUser } from "../store/user/userSlice";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-import React from "react";
 import { AppDispatch } from "../store/store";
 
 export type UserCredentials = {

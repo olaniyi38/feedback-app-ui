@@ -9,7 +9,7 @@ import GoBackButton from "../components/GoBackButton";
 import { useSelector } from "react-redux";
 import { selectFeedbacks } from "../store/feedbacks/feedbackSelector";
 import Loading from "../components/Loading";
-import React from "react";
+
 import { useEffect } from "react";
 
 export enum ROADMAPS {

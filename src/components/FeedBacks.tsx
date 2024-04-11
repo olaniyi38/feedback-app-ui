@@ -1,16 +1,15 @@
 import Button from "./Button";
 import { FaPlus } from "react-icons/fa";
-import { HiOutlineLightBulb, HiOutlinePlus } from "react-icons/hi";
-import FeedBack from "./FeedBack";
+import { HiOutlineLightBulb } from "react-icons/hi";
+
 import FeedbacksSkeleton from "./FeedbacksSkeleton";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import FeedbacksList from "./FeedbacksList";
 import { useSelector } from "react-redux";
 import { selectStatus } from "../store/feedbacks/feedbackSelector";
-import { FeedBack as FeedBackType } from "../store/feedbacks/feedbacksSlice";
+import { TFeedBack as FeedBackType } from "../store/feedbacks/feedbacksSlice";
 import { ChangeEvent } from "react";
-import React from "react";
 
 export enum FILTERS {
 	mostComments = "mostComments",

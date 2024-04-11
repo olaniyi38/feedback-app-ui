@@ -30,9 +30,11 @@
     .mobile-nav {
         clip-path: none;
 
-        >* {
-            opacity: 1;
-        }
+
+    }
+
+    .mobile-nav>* {
+        opacity: 1;
     }
 }
 

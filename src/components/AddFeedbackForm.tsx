@@ -4,10 +4,9 @@ import Button from "./Button";
 import { useNavigate } from "react-router-dom";
 import { ObjectId } from "bson";
 import { useDispatch, useSelector } from "react-redux";
-import { FeedBack, createFeedback } from "../store/feedbacks/feedbacksSlice";
+import { TFeedBack, createFeedback } from "../store/feedbacks/feedbacksSlice";
 import { toast } from "react-toastify";
 import { selectUser } from "../store/user/userSelector";
-import React from "react";
 import { AppDispatch } from "../store/store";
 import { selectStatus } from "../store/feedbacks/feedbackSelector";
 
@@ -37,7 +36,7 @@ const AddFeedbackForm = () => {
 			status: "suggestion",
 			comments: [],
 			by: user.username,
-		} as unknown as FeedBack;
+		} as unknown as TFeedBack;
 		toast
 			.promise(dispatch(createFeedback(feedback)).unwrap(), {
 				success: "Feedback added",

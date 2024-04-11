@@ -1,7 +1,4 @@
-import React from "react";
-import { FaComment } from "react-icons/fa";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { Link } from "react-router-dom";
 
 const FeedbacksSkeleton = () => {
 	return (
@@ -14,7 +11,7 @@ const FeedbacksSkeleton = () => {
 					.map((item, i) => {
 						return (
 							<div
-								key={i}
+								key={i + item}
 								className=" bg-white relative flex flex-col gap-2 md:gap-x-8 md:flex-row rounded-lg p-6">
 								<div className="space-y-1 md:order-2">
 									<p className="md:w-[25rem]">

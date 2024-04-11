@@ -1,6 +1,6 @@
-import React from "react";
+
 import RoadmapItem from "./RoadmapItem";
-import { FeedBack } from "../store/feedbacks/feedbacksSlice";
+import { TFeedBack } from "../store/feedbacks/feedbacksSlice";
 import { ROADMAPS } from "../routes/RoadMap";
 
 const subtitles = {
@@ -12,7 +12,7 @@ const subtitles = {
 type RoadmapListProps = {
 	roadmap: ROADMAPS;
 	currentRoadmap: ROADMAPS;
-	values: FeedBack[];
+	values: TFeedBack[];
 };
 
 const RoadmapList = ({ roadmap, currentRoadmap, values }: RoadmapListProps) => {

@@ -1,6 +1,6 @@
-import React from "react";
+
 import { MouseEvent } from "react";
-import { ChangeEvent } from "react";
+ 
 import { ROADMAPS } from "../routes/RoadMap";
 
 
@@ -13,6 +13,7 @@ type RoadmapNavProps = {
 
 const RoadmapNav = ({ title, onClick, isActive, count }: RoadmapNavProps) => {
 	const bg = ["border-b-in-progress", "border-b-live", "border-b-planned"];
+	bg[0]
 	return (
 		<>
 			<span

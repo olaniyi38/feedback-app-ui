@@ -14,7 +14,7 @@ import Auth from "./routes/Auth";
 import AuthForm from "./components/AuthForm";
 import Protected from "./routes/Protected";
 import { fetchUser } from "./store/user/userSlice";
-import React from "react";
+
 import { AppDispatch } from "./store/store";
 
 const router = createBrowserRouter([

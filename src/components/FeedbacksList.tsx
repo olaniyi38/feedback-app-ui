@@ -1,11 +1,11 @@
-import React from "react";
+
 
 import FeedBack from "./FeedBack";
 import { PiMagnifyingGlassDuotone } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import Button from "./Button";
 import { HiOutlinePlus } from "react-icons/hi";
-import { FeedBack as FeedBackType } from "../store/feedbacks/feedbacksSlice";
+import { TFeedBack as FeedBackType } from "../store/feedbacks/feedbacksSlice";
 
 const FeedbacksList = ({ data }: { data: FeedBackType[] }) => {
 	return (

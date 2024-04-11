@@ -5,28 +5,28 @@ import { CATEGORIES } from "../../components/AddFeedbackForm";
 
 // TYPES
 
-export type Reply = {
+export type TReply = {
 	id: string;
 	replyingTo: string;
 	content: string;
 	user: User;
 };
 
-export type Comment = {
+export type TComment = {
 	id: string;
 	content: string;
-	replies: Reply[];
+	replies: TReply[];
 	user: User;
 };
 
-export type FeedBack = {
+export type TFeedBack = {
 	id: string;
 	title: string;
 	category: CATEGORIES;
 	upvotes: number;
-	status: string;
+	status: "in-progress" | "live" | "planned";
 	description: string;
-	comments: Comment[];
+	comments: TComment[];
 	by: string;
 };
 
@@ -42,7 +42,7 @@ const fetchFeedbacks = createAsyncThunk(
 			);
 		}
 
-		const data = (await res.json()) as FeedBack[];
+		const data = (await res.json()) as TFeedBack[];
 		return data;
 	}
 );
@@ -54,19 +54,22 @@ const likeFeedback = createAsyncThunk(
 		newLikes,
 		id,
 	}: {
-		newFeedback: FeedBack;
+		newFeedback: TFeedBack;
 		newLikes: User["likes"];
 		id: string;
 	}) => {
-		const res = await fetch("https://go-feedback-api.onrender.com/like-feedback", {
-			method: "PATCH",
-			body: JSON.stringify({
-				id,
-				likes: { ...newLikes },
-				upvotes: newFeedback.upvotes,
-			}),
-			credentials: "include",
-		});
+		const res = await fetch(
+			"https://go-feedback-api.onrender.com/like-feedback",
+			{
+				method: "PATCH",
+				body: JSON.stringify({
+					id,
+					likes: { ...newLikes },
+					upvotes: newFeedback.upvotes,
+				}),
+				credentials: "include",
+			}
+		);
 		if (res.status !== 200) {
 			throw new Error("something went wrong");
 		}
@@ -76,12 +79,15 @@ const likeFeedback = createAsyncThunk(
 
 const editFeedback = createAsyncThunk(
 	"feedbacks/edit-feebacks",
-	async (editedFeedback: FeedBack): Promise<FeedBack> => {
-		const res = await fetch("https://go-feedback-api.onrender.com/edit-feedback", {
-			method: "PUT",
-			body: JSON.stringify(editedFeedback),
-			credentials: "include",
-		});
+	async (editedFeedback: TFeedBack): Promise<TFeedBack> => {
+		const res = await fetch(
+			"https://go-feedback-api.onrender.com/edit-feedback",
+			{
+				method: "PUT",
+				body: JSON.stringify(editedFeedback),
+				credentials: "include",
+			}
+		);
 
 		if (res.status !== 200) {
 			throw new Error(res.statusText);
@@ -92,12 +98,15 @@ const editFeedback = createAsyncThunk(
 
 const createFeedback = createAsyncThunk(
 	"feedbacks/create-feedback",
-	async (newFeedback: FeedBack): Promise<FeedBack> => {
-		const res = await fetch("https://go-feedback-api.onrender.com/create-feedback", {
-			method: "POST",
-			body: JSON.stringify(newFeedback),
-			credentials: "include",
-		});
+	async (newFeedback: TFeedBack): Promise<TFeedBack> => {
+		const res = await fetch(
+			"https://go-feedback-api.onrender.com/create-feedback",
+			{
+				method: "POST",
+				body: JSON.stringify(newFeedback),
+				credentials: "include",
+			}
+		);
 
 		if (res.status !== 200) {
 			throw new Error("something went wrong");
@@ -109,10 +118,13 @@ const createFeedback = createAsyncThunk(
 const deleteFeedback = createAsyncThunk(
 	"feedbacks/deletefeedback",
 	async (id: string): Promise<string> => {
-		const res = await fetch(`https://go-feedback-api.onrender.com/delete-feedback/${id}`, {
-			method: "DELETE",
-			credentials: "include",
-		});
+		const res = await fetch(
+			`https://go-feedback-api.onrender.com/delete-feedback/${id}`,
+			{
+				method: "DELETE",
+				credentials: "include",
+			}
+		);
 
 		if (res.status !== 200) {
 			throw new Error("something went wrong");
@@ -122,7 +134,7 @@ const deleteFeedback = createAsyncThunk(
 );
 
 type FeedBackState = {
-	feedbacks: FeedBack[];
+	feedbacks: TFeedBack[];
 	status: "idle" | "success" | "pending" | "failed";
 };
 

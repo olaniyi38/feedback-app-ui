@@ -1,18 +1,14 @@
-import React from "react";
 import { FaChevronUp, FaComment } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { selectLikes, selectUser } from "../store/user/userSelector";
-import { FeedBack, likeFeedback } from "../store/feedbacks/feedbacksSlice";
-import {
-	selectFeedbacks,
-	selectStatus,
-} from "../store/feedbacks/feedbackSelector";
+import { selectUser } from "../store/user/userSelector";
+import { TFeedBack , likeFeedback } from "../store/feedbacks/feedbacksSlice";
+import { selectFeedbacks } from "../store/feedbacks/feedbackSelector";
 import { useState } from "react";
 import { AppDispatch } from "../store/store";
 import { User } from "../store/user/userSlice";
 
-const FeedBack = ({ data }: { data: FeedBack }) => {
+const FeedBack = ({ data }: { data: TFeedBack }) => {
 	const { title, description, upvotes, category, comments, id } = data;
 	const dispatch = useDispatch<AppDispatch>();
 	const user = useSelector(selectUser);
@@ -28,7 +24,7 @@ const FeedBack = ({ data }: { data: FeedBack }) => {
 		const feedbackId = id;
 		const feedbackIndex = feedbacks.findIndex((f) => f.id === feedbackId);
 		let newLikes: User["likes"] = { ...likes };
-		let newFeedback: FeedBack = {
+		let newFeedback: TFeedBack = {
 			...feedbacks[feedbackIndex],
 		};
 		if (!isLiked) {

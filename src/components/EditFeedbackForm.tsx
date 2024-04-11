@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
-import { FieldValue, FieldValues, useForm } from "react-hook-form";
+import {FieldValues, useForm } from "react-hook-form";
 import FormInput from "./FormInput";
 import Button from "./Button";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
-	FeedBack,
+	TFeedBack,
 	deleteFeedback,
 	editFeedback,
 } from "../store/feedbacks/feedbacksSlice";
@@ -18,7 +18,7 @@ import { useState } from "react";
 import { selectUser } from "../store/user/userSelector";
 import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
-import React from "react";
+
 import { AppDispatch } from "../store/store";
 import { CATEGORIES } from "./AddFeedbackForm";
 
@@ -49,10 +49,10 @@ const EditFeedbackForm = ({ id }: { id: string }) => {
 	}
 
 	async function onSubmit(data: FieldValues) {
-		const newFeedback: FeedBack = {
+		const newFeedback: TFeedBack = {
 			...feedback,
 			...data,
-		} as FeedBack;
+		} as TFeedBack;
 
 		await toast
 			.promise(dispatch(editFeedback(newFeedback)).unwrap(), {

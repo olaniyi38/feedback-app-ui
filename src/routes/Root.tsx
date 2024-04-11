@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 import FeedBacks from "../components/FeedBacks";
 import Nav from "../components/Nav";
 import { selectFeedbacks } from "../store/feedbacks/feedbackSelector";
-import React from "react";
-import { CATEGORIES } from "../components/AddFeedbackForm";
+
+ 
 
 export default function Root() {
 	const [filterBy, setFilterBy] = useState("all");

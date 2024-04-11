@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux";
 import { selectUser } from "../store/user/userSelector";
-import React from "react";
-import { Reply } from "../store/feedbacks/feedbacksSlice";
 
-const Reply = ({ data }: { data: Reply }) => {
+import { TReply } from "../store/feedbacks/feedbacksSlice";
+
+const Reply = ({ data }: { data: TReply }) => {
 	const { content, user, replyingTo } = data;
 	const currentUser = useSelector(selectUser);
 

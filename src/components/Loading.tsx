@@ -1,4 +1,4 @@
-import React from "react";
+
 
 const Loading = ({ full = true }: { full?: boolean }) => {
 	return (

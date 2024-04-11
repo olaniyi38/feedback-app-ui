@@ -1,38 +1,28 @@
-import React from "react";
-import { useState } from "react";
-import Button from "./Button";
-import Reply from "./Reply";
 import { useDispatch, useSelector } from "react-redux";
 import { selectFeedbacks } from "../store/feedbacks/feedbackSelector";
 import { toast } from "react-toastify";
-import {
-	Comment,
-	FeedBack,
-	Reply as ReplyType,
-	editFeedback,
-} from "../store/feedbacks/feedbacksSlice";
+import { TComment , editFeedback } from "../store/feedbacks/feedbacksSlice";
 import { selectUser } from "../store/user/userSelector";
 import { HiOutlineTrash } from "react-icons/hi";
 import { BsPerson } from "react-icons/bs";
-import { ChangeEvent } from "react";
 import { AppDispatch } from "../store/store";
 
 type CommentProps = {
-	data: Comment;
+	data: TComment;
 	feedbackId: string;
 };
 const Comment = ({ data, feedbackId }: CommentProps) => {
-	const { id, content, user, replies } = data;
-	const [replyActive, setReplyActive] = useState(false);
-	const [reply, setReply] = useState("");
+	const { id, content, user } = data;
+	// const [replyActive, setReplyActive] = useState(false);
+	// const [reply, setReply] = useState("");
 	const feedbacks = useSelector(selectFeedbacks);
 	const feedback = feedbacks.find((fb) => fb.id === feedbackId);
 	const currentUser = useSelector(selectUser);
 	const dispatch = useDispatch<AppDispatch>();
 
-	function onChangeHandler(e: ChangeEvent<HTMLTextAreaElement>) {
-		setReply(e.target.value);
-	}
+	// function onChangeHandler(e: ChangeEvent<HTMLTextAreaElement>) {
+	// 	setReply(e.target.value);
+	// }
 
 	async function deleteComment() {
 		if (!feedback) return;
@@ -48,40 +38,40 @@ const Comment = ({ data, feedbackId }: CommentProps) => {
 		});
 	}
 
-	async function postReply() {
-		if (!feedback || !currentUser) return;
+	// async function postReply() {
+	// 	if (!feedback || !currentUser) return;
 
-		const newReply: ReplyType = {
-			id: crypto.randomUUID().toString(),
-			content: reply,
-			replyingTo: user.username,
-			user: {
-				...currentUser,
-			},
-		};
+	// 	const newReply: ReplyType = {
+	// 		id: crypto.randomUUID().toString(),
+	// 		content: reply,
+	// 		replyingTo: user.username,
+	// 		user: {
+	// 			...currentUser,
+	// 		},
+	// 	};
 
-		const newComments = feedback.comments.map((c): Comment => {
-			if (c.id === id) {
-				return c.replies
-					? { ...c, replies: [...c.replies, { ...newReply }] }
-					: { ...c, replies: [{ ...newReply }] };
-			}
-			return c;
-		});
+	// 	const newComments = feedback.comments.map((c): Comment => {
+	// 		if (c.id === id) {
+	// 			return c.replies
+	// 				? { ...c, replies: [...c.replies, { ...newReply }] }
+	// 				: { ...c, replies: [{ ...newReply }] };
+	// 		}
+	// 		return c;
+	// 	});
 
-		const newFeedback: FeedBack = {
-			...feedback,
-			comments: newComments,
-		};
+	// 	const newFeedback: FeedBack = {
+	// 		...feedback,
+	// 		comments: newComments,
+	// 	};
 
-		await toast
-			.promise(dispatch(editFeedback(newFeedback)).unwrap(), {
-				success: "Posted comment",
-				pending: "Posting comment",
-				error: "something went wrong",
-			})
-			.then(() => setReply(""));
-	}
+	// 	await toast
+	// 		.promise(dispatch(editFeedback(newFeedback)).unwrap(), {
+	// 			success: "Posted comment",
+	// 			pending: "Posting comment",
+	// 			error: "something went wrong",
+	// 		})
+	// 		.then(() => setReply(""));
+	// }
 
 	return (
 		<div className="border-b border-b-slate-300 last:border-none">
@@ -110,9 +100,7 @@ const Comment = ({ data, feedbackId }: CommentProps) => {
 					)}
 				</div>
 			</header>
-			<div className="text-slate-700  text-sm my-4  ">
-				{content}
-			</div>
+			<div className="text-slate-700  text-sm my-4  ">{content}</div>
 			{/* {replies && (
 				<div className="pl-6 md:ml-10 border-l mt-4 md:mt-8 border-l-slate-300">
 					{replies.map((r) => (

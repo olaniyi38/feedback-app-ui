@@ -1,15 +1,15 @@
 import { FaChevronUp, FaComment } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { selectLikes, selectUser } from "../store/user/userSelector";
+import { selectUser } from "../store/user/userSelector";
 import { likeFeedback } from "../store/feedbacks/feedbacksSlice";
 import { selectFeedbacks } from "../store/feedbacks/feedbackSelector";
 import { useState } from "react";
-import Loading from "./Loading";
-import { FeedBack } from "../store/feedbacks/feedbacksSlice";
+
+import { TFeedBack } from "../store/feedbacks/feedbacksSlice";
 import { AppDispatch } from "../store/store";
 import { User } from "../store/user/userSlice";
-import React from "react";
+
 
 const borderColor = {
 	"in-progress": "border-t-in-progress",
@@ -17,14 +17,14 @@ const borderColor = {
 	planned: "border-t-planned",
 };
 
-const RoadmapItem = ({ data }: { data: FeedBack }) => {
+const RoadmapItem = ({ data }: { data: TFeedBack }) => {
 	const { title, description, upvotes, category, comments, id, status } = data;
 	const bgColors = ["bg-in-progress", "bg-planned", "bg-live"];
+	bgColors[0];
 	const dispatch = useDispatch<AppDispatch>();
 	const feedbacks = useSelector(selectFeedbacks);
 	const [isDisabled, setIsDisabled] = useState(false);
-	const user = useSelector(selectUser)
-	const username = user ? user.username : "";
+	const user = useSelector(selectUser);
 	const likes = user ? user.likes : {};
 	const isLiked = id in likes;
 
@@ -32,8 +32,8 @@ const RoadmapItem = ({ data }: { data: FeedBack }) => {
 		setIsDisabled(true);
 		const feedbackId = id;
 		const feedbackIndex = feedbacks.findIndex((f) => f.id === feedbackId);
-		let newLikes: User['likes'] = { ...likes };
-		let newFeedback: FeedBack = {
+		let newLikes: User["likes"] = { ...likes };
+		let newFeedback: TFeedBack = {
 			...feedbacks[feedbackIndex],
 		};
 		if (!isLiked) {
@@ -51,11 +51,9 @@ const RoadmapItem = ({ data }: { data: FeedBack }) => {
 			.then(() => setIsDisabled(false));
 	}
 
-
 	return (
 		<div
-			className={` bg-white border-t-[.4rem] ${borderColor[status]} relative flex flex-col gap-4 rounded-md p-6`}
-		>
+			className={` bg-white border-t-[.4rem] ${borderColor[status]} relative flex flex-col gap-4 rounded-md p-6`}>
 			<div className="space-y-4 ">
 				<div className="text-sm  text-slate-600 flex items-center gap-x-2 mb-3">
 					<span className={`w-2 h-2 bg-${status} rounded-full`}></span>
@@ -63,8 +61,7 @@ const RoadmapItem = ({ data }: { data: FeedBack }) => {
 				</div>
 				<Link
 					to={`/feedback/${id}`}
-					className=" text-blue-950 hover:underline transition font-bold text-sm "
-				>
+					className=" text-blue-950 hover:underline transition font-bold text-sm ">
 					{title}
 				</Link>
 				<p className=" text-slate-700 text-[0.8rem]   pr-4">{description}</p>
@@ -76,13 +73,15 @@ const RoadmapItem = ({ data }: { data: FeedBack }) => {
 				<button
 					disabled={isDisabled}
 					onClick={() => likeAFeedback(id)}
-					className={`flex self-start text-sm group  disabled:bg-slate-300 group disabled:text-slate-500 items-center gap-2 p-2 rounded-md ${isLiked
-						? "bg-blue-600 text-white hover:bg-blue-700"
-						: "bg-blue-50 text-blue-950 hover:bg-blue-200"
-						}  transition-colors group-disabled:500 `}
-				>
+					className={`flex self-start text-sm group  disabled:bg-slate-300 group disabled:text-slate-500 items-center gap-2 p-2 rounded-md ${
+						isLiked
+							? "bg-blue-600 text-white hover:bg-blue-700"
+							: "bg-blue-50 text-blue-950 hover:bg-blue-200"
+					}  transition-colors group-disabled:500 `}>
 					<FaChevronUp
-						className={` ${isLiked ? "fill-white" : "fill-blue-600"} ${isDisabled ? "fill-slate-500" : ""} `}
+						className={` ${isLiked ? "fill-white" : "fill-blue-600"} ${
+							isDisabled ? "fill-slate-500" : ""
+						} `}
 					/>
 					{upvotes}
 				</button>

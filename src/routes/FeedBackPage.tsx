@@ -10,8 +10,8 @@ import GoBackButton from "../components/GoBackButton";
 import { useDispatch, useSelector } from "react-redux";
 import { selectFeedbacks } from "../store/feedbacks/feedbackSelector";
 import {
-	Comment as CommentType,
-	FeedBack as FeedbackType,
+	TComment,
+	TFeedBack,
 	editFeedback,
 } from "../store/feedbacks/feedbacksSlice";
 import { toast } from "react-toastify";
@@ -21,7 +21,7 @@ import { BSON } from "bson";
 import { selectUser } from "../store/user/userSelector";
 import { ChangeEvent } from "react";
 import { Navigate } from "react-router-dom";
-import React from "react";
+
 import { AppDispatch } from "../store/store";
 import { useEffect } from "react";
 
@@ -48,7 +48,7 @@ const FeedBackPage = () => {
 		}
 	}
 
-	const newComment: CommentType = {
+	const newComment: TComment = {
 		id: new BSON.ObjectId().toString(),
 		content: comment,
 		user: { ...currentUser },
@@ -58,7 +58,7 @@ const FeedBackPage = () => {
 	function addComment() {
 		if (!feedback) return;
 
-		const newFeedback: FeedbackType = {
+		const newFeedback: TFeedBack = {
 			...feedback,
 			comments: [...feedback.comments, { ...newComment }],
 		};
