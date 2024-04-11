@@ -74,15 +74,16 @@ const router = createBrowserRouter([
 const App = () => {
 	const dispatch = useDispatch<AppDispatch>();
 
-
 	useEffect(() => {
 		async function init() {
-			await dispatch(fetchUser()).unwrap()
+			await dispatch(fetchUser())
+				.unwrap()
 				.then(async () => {
-					await dispatch(fetchFeedbacks()).unwrap()
-				}).catch((error: Error) => {
-					console.log(error)
+					await dispatch(fetchFeedbacks()).unwrap();
 				})
+				.catch((error: Error) => {
+					console.log(error);
+				});
 		}
 		init();
 	}, []);

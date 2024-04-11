@@ -10,7 +10,10 @@ import {
 	editFeedback,
 } from "../store/feedbacks/feedbacksSlice";
 import { toast } from "react-toastify";
-import { selectFeedbacks } from "../store/feedbacks/feedbackSelector";
+import {
+	selectFeedbacks,
+	selectStatus,
+} from "../store/feedbacks/feedbackSelector";
 import { useState } from "react";
 import { selectUser } from "../store/user/userSelector";
 import { useEffect } from "react";
@@ -19,28 +22,37 @@ import React from "react";
 import { AppDispatch } from "../store/store";
 import { CATEGORIES } from "./AddFeedbackForm";
 
-
 const EditFeedbackForm = ({ id }: { id: string }) => {
 	const feedbacks = useSelector(selectFeedbacks);
-	const user = useSelector(selectUser)
+	const pending = useSelector(selectStatus) === "pending";
+	const user = useSelector(selectUser);
 	const [deleteActive, setDeleteActive] = useState(false);
 	const navigate = useNavigate();
 	const dispatch = useDispatch<AppDispatch>();
 
-
 	const feedback = feedbacks.find((fb) => fb.id === id);
 
 	useEffect(() => {
-		if (feedback && user && (feedback.by !== user.username)) {
-			navigate(-1)
+		if (feedback && user && feedback.by !== user.username) {
+			navigate(-1);
 		}
-	}, [feedback?.by, navigate, user?.username])
+	}, [feedback?.by, navigate, user?.username]);
+
+	const { title, category, status, description } = feedback || {};
+
+	const { register, formState, handleSubmit } = useForm<FieldValues>({
+		defaultValues: { title, category, status, description },
+	});
+
+	if (!feedback) {
+		return <Navigate to={"/"} />;
+	}
 
 	async function onSubmit(data: FieldValues) {
 		const newFeedback: FeedBack = {
 			...feedback,
 			...data,
-		} as FeedBack
+		} as FeedBack;
 
 		await toast
 			.promise(dispatch(editFeedback(newFeedback)).unwrap(), {
@@ -52,7 +64,6 @@ const EditFeedbackForm = ({ id }: { id: string }) => {
 				navigate(-1);
 			});
 	}
-
 
 	async function removeFeedback() {
 		await toast
@@ -66,19 +77,7 @@ const EditFeedbackForm = ({ id }: { id: string }) => {
 			});
 	}
 
-
-	if (!feedback) {
-		return <Navigate to={"/"} />
-	}
-
-	const { title, category, status, description } = feedback;
-
-	const { register, formState, handleSubmit } = useForm<FieldValues>({
-		defaultValues: { title, category, status, description },
-	});
-
 	const errors = formState.errors;
-
 
 	return (
 		<div className="space-y-8">
@@ -88,7 +87,11 @@ const EditFeedbackForm = ({ id }: { id: string }) => {
 						label="Feedback Title"
 						subLabel="Add a short and, desriptive headiline"
 					/>
-					<FormInput.Text register={register} name="title" errors={errors} />
+					<FormInput.Text
+						register={register}
+						name="title"
+						errors={errors}
+					/>
 				</FormInput>
 
 				<FormInput>
@@ -119,32 +122,50 @@ const EditFeedbackForm = ({ id }: { id: string }) => {
 						label="feedback detail"
 						subLabel="include any specific comments on what should be improved, added, etc."
 					/>
-					<FormInput.TextArea name="description" register={register} />
+					<FormInput.TextArea
+						name="description"
+						register={register}
+					/>
 				</FormInput>
 			</form>
 			<div className="flex items-center justify-between px-4">
 				{deleteActive ? (
 					<>
-						<p className="font-medium text-red-400">Confirm delete:</p>
-						<div className="flex items-center gap-x-4 ">
-							<Button variant="blue" onClick={() => setDeleteActive(false)}>
+						<div className="flex items-center justify-between w-full ">
+							<Button
+								disabled={pending}
+								variant="blue"
+								onClick={() => setDeleteActive(false)}>
 								Cancel
 							</Button>
-							<Button variant="red" onClick={removeFeedback}>
+							<Button
+								disabled={pending}
+								variant="red"
+								onClick={removeFeedback}>
 								Delete
 							</Button>
 						</div>
 					</>
 				) : (
 					<>
-						<Button variant="red" onClick={() => setDeleteActive(true)}>
+						<Button
+							disabled={pending}
+							variant="red"
+							onClick={() => setDeleteActive(true)}>
 							{" "}
 							Delete
 						</Button>
 						<div className="flex items-center gap-x-4 ">
-							<Button onClick={() => navigate(-1)}>Cancel</Button>
-							<Button variant="blue" onClick={handleSubmit(onSubmit)}>
-								Save changes
+							<Button
+								onClick={() => navigate(-1)}
+								disabled={pending}>
+								Cancel
+							</Button>
+							<Button
+								disabled={pending}
+								variant="blue"
+								onClick={handleSubmit(onSubmit)}>
+								Save
 							</Button>
 						</div>
 					</>

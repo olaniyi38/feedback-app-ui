@@ -9,9 +9,9 @@ import { FeedBack as FeedBackType } from "../store/feedbacks/feedbacksSlice";
 
 const FeedbacksList = ({ data }: { data: FeedBackType[] }) => {
 	return (
-		<div className="flex flex-col gap-4 p-4 pt-8 pb-16">
+		<div className="flex flex-col gap-4 p-4 pt-8 pb-16 ">
 			{data.length === 0 ? (
-				<div className=" h-[60vh] flex flex-col justify-center items-center gap-y-1 px-8">
+				<div className=" h-[60vh] flex flex-col justify-center items-center text-center gap-y-1 px-8">
 					<div className="mb-8">
 						<PiMagnifyingGlassDuotone className="w-20 h-20 " />
 					</div>

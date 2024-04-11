@@ -16,7 +16,7 @@ export type User = {
 }
 
 const fetchUser = createAsyncThunk("user/getUser", async (): Promise<User> => {
-    const res = await fetch("http://localhost:4000/fetch-user", {
+    const res = await fetch("https://go-feedback-api.onrender.com/fetch-user", {
         credentials: "include"
     })
     if (res.status >= 200 && res.status <= 299) {
@@ -27,7 +27,7 @@ const fetchUser = createAsyncThunk("user/getUser", async (): Promise<User> => {
 })
 
 const signUpUser = createAsyncThunk("user/sign-up", async (userCredentials: UserCredentials): Promise<User> => {
-    const res = await fetch("http://localhost:4000/auth/sign-up", {
+    const res = await fetch("https://go-feedback-api.onrender.com/auth/sign-up", {
         method: "POST",
         body: JSON.stringify(userCredentials),
         credentials: "include"
@@ -45,7 +45,7 @@ const signUpUser = createAsyncThunk("user/sign-up", async (userCredentials: User
 })
 
 const signInUser = createAsyncThunk("user/sign-in", async (userCred: UserCredentials): Promise<User> => {
-    const res = await fetch("http://localhost:4000/auth/sign-in", {
+    const res = await fetch("https://go-feedback-api.onrender.com/auth/sign-in", {
         method: "POST",
         body: JSON.stringify(userCred),
         credentials: "include"
@@ -63,7 +63,7 @@ const signInUser = createAsyncThunk("user/sign-in", async (userCred: UserCredent
 })
 
 const logOutUser = createAsyncThunk("user/logout", async () => {
-    const res = await fetch("http://localhost:4000/auth/logout", {
+    const res = await fetch("https://go-feedback-api.onrender.com/auth/logout", {
         method: "POST",
         credentials: "include"
     })

@@ -7,8 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { FeedBack, createFeedback } from "../store/feedbacks/feedbacksSlice";
 import { toast } from "react-toastify";
 import { selectUser } from "../store/user/userSelector";
-import React from "react"
+import React from "react";
 import { AppDispatch } from "../store/store";
+import { selectStatus } from "../store/feedbacks/feedbackSelector";
 
 export enum CATEGORIES {
 	all = "all",
@@ -20,11 +21,11 @@ export enum CATEGORIES {
 }
 
 const AddFeedbackForm = () => {
-	const user = useSelector(selectUser)
+	const user = useSelector(selectUser);
 	const { register, formState, handleSubmit } = useForm();
 	const navigate = useNavigate();
 	const dispatch = useDispatch<AppDispatch>();
-
+	const pending = useSelector(selectStatus) === "pending";
 	const errors = formState.errors;
 
 	async function onSubmit(data: FieldValues) {
@@ -35,8 +36,8 @@ const AddFeedbackForm = () => {
 			upvotes: 0,
 			status: "suggestion",
 			comments: [],
-			by: user.username
-		} as unknown as FeedBack
+			by: user.username,
+		} as unknown as FeedBack;
 		toast
 			.promise(dispatch(createFeedback(feedback)).unwrap(), {
 				success: "Feedback added",
@@ -55,7 +56,11 @@ const AddFeedbackForm = () => {
 						label="Feedback Title"
 						subLabel="Add a short and, desriptive headiline"
 					/>
-					<FormInput.Text register={register} name="title" errors={errors} />
+					<FormInput.Text
+						register={register}
+						name="title"
+						errors={errors}
+					/>
 				</FormInput>
 
 				<FormInput>
@@ -74,14 +79,24 @@ const AddFeedbackForm = () => {
 						label="feedback detail"
 						subLabel="include any specific comments on what should be improved, added, etc."
 					/>
-					<FormInput.TextArea name="description" register={register} />
+					<FormInput.TextArea
+						name="description"
+						register={register}
+					/>
 				</FormInput>
 			</form>
-			<div className="flex items-center justify-end gap-x-4 px-4">
-				<Button onClick={() => navigate(-1)} variant="red">
+			<div className="flex items-center justify-between sm:justify-end gap-x-4 px-4">
+				<Button
+					disabled={pending}
+					onClick={() => navigate(-1)}
+					variant="red">
 					Cancel
 				</Button>
-				<Button onClick={handleSubmit(onSubmit)}>Post feedback</Button>
+				<Button
+					onClick={handleSubmit(onSubmit)}
+					disabled={pending}>
+					Post feedback
+				</Button>
 			</div>
 		</div>
 	);

@@ -9,6 +9,7 @@ import { CATEGORIES } from "../components/AddFeedbackForm";
 export default function Root() {
 	const [filterBy, setFilterBy] = useState("all");
 	const feedBacks = useSelector(selectFeedbacks);
+	const [isMobileNavActive, setMobileNavActive] = useState(false);
 	const filteredFeedbacks = feedBacks.filter((f) => {
 		if (filterBy.toLowerCase() === "all") {
 			return f;
@@ -20,10 +21,25 @@ export default function Root() {
 		setFilterBy(filter);
 	}
 
+	function toggleMobileNav() {
+		setMobileNavActive(!isMobileNavActive);
+	}
+
 	return (
 		<>
-			<div className="max-w-[72rem]  lg:flex lg:pt-28 lg:gap-12 mx-auto md:px-8">
-				<Nav updateFilter={updateFilter} currentFilter={filterBy} />
+			<div className="relative max-w-[72rem]  lg:flex lg:pt-28 lg:gap-12 mx-auto md:px-8">
+				<div
+					onClick={() => setMobileNavActive(false)}
+					className={`dark-bg-mob-nav ${
+						isMobileNavActive ? "active" : ""
+					} fixed bg-black  z-[12] inset-0 md:hidden`}></div>
+
+				<Nav
+					updateFilter={updateFilter}
+					currentFilter={filterBy}
+					mobileNavToggleFunc={toggleMobileNav}
+					mobileNavActive={isMobileNavActive}
+				/>
 				<div className="flex-1">
 					<FeedBacks data={filteredFeedbacks} />
 				</div>

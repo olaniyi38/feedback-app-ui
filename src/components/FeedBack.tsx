@@ -1,4 +1,3 @@
-
 import React from "react";
 import { FaChevronUp, FaComment } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,7 +19,6 @@ const FeedBack = ({ data }: { data: FeedBack }) => {
 	const feedbacks = useSelector(selectFeedbacks);
 	const [isDisabled, setIsDisabled] = useState(false);
 
-	
 	const likes = user ? user.likes : {};
 
 	const isLiked = id in likes;
@@ -29,7 +27,7 @@ const FeedBack = ({ data }: { data: FeedBack }) => {
 		setIsDisabled(true);
 		const feedbackId = id;
 		const feedbackIndex = feedbacks.findIndex((f) => f.id === feedbackId);
-		let newLikes: User['likes'] = { ...likes };
+		let newLikes: User["likes"] = { ...likes };
 		let newFeedback: FeedBack = {
 			...feedbacks[feedbackIndex],
 		};
@@ -47,7 +45,7 @@ const FeedBack = ({ data }: { data: FeedBack }) => {
 			.unwrap()
 			.then(() => setIsDisabled(false));
 
-		setIsDisabled(false)
+		setIsDisabled(false);
 	}
 
 	return (
@@ -55,8 +53,7 @@ const FeedBack = ({ data }: { data: FeedBack }) => {
 			<div className="space-y-4 md:order-2">
 				<Link
 					to={`/feedback/${id}`}
-					className=" text-blue-950 hover:underline transition  font-bold "
-				>
+					className=" text-blue-950 hover:underline transition  font-bold ">
 					{title}
 				</Link>
 				<p className=" text-slate-700 text-[0.9rem]  pr-4">{description}</p>
@@ -68,14 +65,15 @@ const FeedBack = ({ data }: { data: FeedBack }) => {
 				<button
 					disabled={isDisabled}
 					onClick={() => likeAFeedback(id)}
-					className={`flex self-start disabled:bg-slate-300 group disabled:text-slate-500 text-sm md:flex-col min-w-[2.5rem]  items-center gap-2 p-2 rounded-md ${isLiked
-						? "bg-blue-600 text-white hover:bg-blue-700"
-						: "bg-blue-50 text-blue-950 hover:bg-blue-200"
-						}  transition-colors `}
-				>
+					className={`flex self-start disabled:bg-slate-300 group disabled:text-slate-500 text-sm md:flex-col min-w-[2.5rem]  items-center gap-2 p-2 rounded-md ${
+						isLiked
+							? "bg-blue-600 text-white hover:bg-blue-700"
+							: "bg-blue-50 text-blue-950 hover:bg-blue-200"
+					}  transition-colors `}>
 					<FaChevronUp
-						className={`${isLiked ? "fill-white" : "fill-blue-600"
-							} group-disabled:fill-slate-500`}
+						className={`${
+							isLiked ? "fill-white" : "fill-blue-600"
+						} group-disabled:fill-slate-500`}
 					/>
 					{upvotes}
 				</button>

@@ -1,4 +1,3 @@
-
 import { HiOutlineChevronLeft, HiOutlinePlus } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
@@ -13,11 +12,14 @@ import Loading from "../components/Loading";
 import React from "react";
 import { useEffect } from "react";
 
-export enum ROADMAPS { planned = "planned", "in-progress" = "in-progress", live = "live" };
-
+export enum ROADMAPS {
+	planned = "planned",
+	"in-progress" = "in-progress",
+	live = "live",
+}
 
 const RoadMap = () => {
-	const roadmaps = Object.values(ROADMAPS)
+	const roadmaps = Object.values(ROADMAPS);
 	const [currentRoadmap, setCurrentRoadmap] = useState(roadmaps[0]);
 	const feedbacks = useSelector(selectFeedbacks);
 
@@ -28,10 +30,10 @@ const RoadMap = () => {
 	useEffect(() => {
 		window.scrollTo({
 			top: 0,
-			behavior: "smooth"
-		})
-	}, [])
-	
+			behavior: "smooth",
+		});
+	}, []);
+
 	return (
 		<section className="max-w-[68rem] mx-auto sm:px-4 sm:py-8">
 			<header className="bg-blue-950 text-white px-6 py-4 sm:rounded-lg md:mb-6 ">

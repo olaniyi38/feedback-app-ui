@@ -9,7 +9,11 @@ import { useState } from "react";
 import GoBackButton from "../components/GoBackButton";
 import { useDispatch, useSelector } from "react-redux";
 import { selectFeedbacks } from "../store/feedbacks/feedbackSelector";
-import { Comment as CommentType, FeedBack as FeedbackType, editFeedback } from "../store/feedbacks/feedbacksSlice";
+import {
+	Comment as CommentType,
+	FeedBack as FeedbackType,
+	editFeedback,
+} from "../store/feedbacks/feedbacksSlice";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import Loading from "../components/Loading";
@@ -29,16 +33,13 @@ const FeedBackPage = () => {
 
 	const feedback = feedbacks.find((d) => d.id === id);
 
-
 	if (!id || !currentUser || !feedback) {
-		return <Navigate to={"/"} />
+		return <Navigate to={"/"} />;
 	}
-
 
 	const lim = 100;
 
 	const [comment, setComment] = useState("");
-
 
 	function onChangeHandler(e: ChangeEvent<HTMLTextAreaElement>) {
 		const { value } = e.target;
@@ -47,13 +48,11 @@ const FeedBackPage = () => {
 		}
 	}
 
-
-
 	const newComment: CommentType = {
 		id: new BSON.ObjectId().toString(),
 		content: comment,
 		user: { ...currentUser },
-		replies: []
+		replies: [],
 	};
 
 	function addComment() {
@@ -75,18 +74,16 @@ const FeedBackPage = () => {
 		setComment("");
 	}
 
-
-
 	if (!feedback) {
 		return <Loading />;
 	}
 
 	useEffect(() => {
 		window.scrollTo({
-			top: 30,
-			behavior: "smooth"
-		})
-	}, [])
+			top: 10,
+			behavior: "smooth",
+		});
+	}, []);
 
 	return (
 		<section className="px-4 pb-16 lg:pt-10">
@@ -99,20 +96,24 @@ const FeedBackPage = () => {
 					{feedback.by === currentUser?.username && (
 						<Link to={`/edit-feedback/${id}`}>
 							<Button variant={"blue"}>Edit Feedback</Button>
-						</Link>)
-					}
+						</Link>
+					)}
 				</header>
 
 				<div className="py-8  space-y-4">
 					<FeedBack data={feedback} />
 
 					<div className="space-y-4 bg-white p-6 rounded-md">
-						<h1 className="font-bold text-blue-950 text-lg">
+						<h1 className="font-bold text-blue-950 sm:text-lg">
 							{feedback.comments.length} Comment(s)
 						</h1>
 						<div className="space-y-6">
 							{feedback.comments.map((c) => (
-								<Comment key={c.id} feedbackId={id} data={c} />
+								<Comment
+									key={c.id}
+									feedbackId={id}
+									data={c}
+								/>
 							))}
 						</div>
 					</div>
@@ -132,7 +133,9 @@ const FeedBackPage = () => {
 						<span className="text-sm text-slate-600">
 							{lim - comment.length} Characters left
 						</span>
-						<Button onClick={addComment} variant="blue">
+						<Button
+							onClick={addComment}
+							variant="blue">
 							Post Comment
 						</Button>
 					</div>

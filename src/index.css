@@ -3,3 +3,50 @@
 @tailwind utilities;
 
 
+@layer utilities {
+    .mobile-nav {
+        clip-path: inset(0% 0% 0% 100%);
+        transition: clip-path .4s .2s ease-in-out;
+    }
+
+    .mobile-nav>* {
+        opacity: 1;
+        transition: opacity .3s ease-in-out;
+    }
+
+    .mobile-nav.active {
+        clip-path: inset(0% 0% 0% 0%);
+
+
+    }
+
+    .mobile-nav.active>* {
+        opacity: 1;
+        transition: opacity .3s .4s ease-in-out;
+    }
+}
+
+@media screen and (min-width:768px) {
+    .mobile-nav {
+        clip-path: none;
+
+        >* {
+            opacity: 1;
+        }
+    }
+}
+
+@layer components {
+    .dark-bg-mob-nav {
+        opacity: 0.5;
+        clip-path: inset(0% 0% 0% 100%);
+        transition: clip-path .2s .3s ease-in-out;
+    }
+
+    .dark-bg-mob-nav.active {
+        opacity: 0.5;
+        clip-path: inset(0% 0% 0% 0%);
+        transition: clip-path .3s .2s ease-in-out;
+
+    }
+}

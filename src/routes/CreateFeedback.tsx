@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 const CreateFeedback = () => {
 	return (
-		<section className="max-w-[32rem] mx-auto py-8 pb-16">
+		<section className="max-w-[32rem] mx-auto py-8 pb-16 px-4">
 			<Link
 				to="/"
 				className="text-sm text-blue-950 font-semibold flex items-center gap-x-2 my-4"

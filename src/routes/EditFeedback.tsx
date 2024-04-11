@@ -21,12 +21,12 @@ const EditFeedback = () => {
 	}
 
 	return (
-		<section className="max-w-[32rem] mx-auto py-8 pb-16">
+		<section className="max-w-[32rem] mx-auto py-8 pb-16 px-4">
 			<GoBackButton>
 				<HiOutlineChevronLeft />
 				Go back
 			</GoBackButton>
-			<div className=" bg-white relative rounded-2xl mt-12 p-8">
+			<div className=" bg-white relative rounded-2xl mt-12 p-4 sm:p-8">
 				<span className="bg-gradient-to-br from-blue-500 to-purple-500 text-white grid place-items-center absolute top-[-1rem] left-6 w-10 h-10 rounded-full">
 					<HiOutlinePlus className="w-5 h-5" />
 				</span>

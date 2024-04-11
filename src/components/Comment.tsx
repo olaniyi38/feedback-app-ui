@@ -1,21 +1,26 @@
 import React from "react";
 import { useState } from "react";
 import Button from "./Button";
-import Reply from './Reply'
+import Reply from "./Reply";
 import { useDispatch, useSelector } from "react-redux";
 import { selectFeedbacks } from "../store/feedbacks/feedbackSelector";
 import { toast } from "react-toastify";
-import { Comment, FeedBack, Reply as ReplyType, editFeedback } from "../store/feedbacks/feedbacksSlice";
+import {
+	Comment,
+	FeedBack,
+	Reply as ReplyType,
+	editFeedback,
+} from "../store/feedbacks/feedbacksSlice";
 import { selectUser } from "../store/user/userSelector";
 import { HiOutlineTrash } from "react-icons/hi";
+import { BsPerson } from "react-icons/bs";
 import { ChangeEvent } from "react";
 import { AppDispatch } from "../store/store";
-
 
 type CommentProps = {
 	data: Comment;
 	feedbackId: string;
-}
+};
 const Comment = ({ data, feedbackId }: CommentProps) => {
 	const { id, content, user, replies } = data;
 	const [replyActive, setReplyActive] = useState(false);
@@ -43,7 +48,6 @@ const Comment = ({ data, feedbackId }: CommentProps) => {
 		});
 	}
 
-
 	async function postReply() {
 		if (!feedback || !currentUser) return;
 
@@ -53,8 +57,8 @@ const Comment = ({ data, feedbackId }: CommentProps) => {
 			replyingTo: user.username,
 			user: {
 				...currentUser,
-			}
-		}
+			},
+		};
 
 		const newComments = feedback.comments.map((c): Comment => {
 			if (c.id === id) {
@@ -80,15 +84,11 @@ const Comment = ({ data, feedbackId }: CommentProps) => {
 	}
 
 	return (
-		<div className="border-b border-b-slate-300 last:border-none pb-6">
+		<div className="border-b border-b-slate-300 last:border-none">
 			<header className="flex justify-between items-center">
-				<div className="flex gap-x-3 md:gap-x-6 items-center text-sm">
-					<div className="relative w-10 h-10 md:w-12 md:h-12 rounded-full">
-						<img
-							src={user.image}
-							alt=""
-							className="rounded-full absolute inset-0"
-						/>
+				<div className="flex gap-x-3 items-center text-sm">
+					<div className="hidden relative w-8 h-auto  rounded-full border border-slate-600 p-1 text-slate-600">
+						<BsPerson className="w-full h-auto stroke-slate-400" />
 					</div>
 					<div>
 						<p className="text-blue-950 font-semibold text-sm">
@@ -98,12 +98,11 @@ const Comment = ({ data, feedbackId }: CommentProps) => {
 					</div>
 				</div>
 				<div className="flex items-center gap-3">
-					<button
+					{/* <button
 						onClick={() => setReplyActive(!replyActive)}
-						className="text-blue-600 text-xs sm:text-sm font-semibold"
-					>
+						className="text-blue-600 text-xs sm:text-sm font-semibold">
 						Reply
-					</button>
+					</button> */}
 					{user.username === currentUser?.username && (
 						<button onClick={deleteComment}>
 							<HiOutlineTrash className="w-5 h-5 stroke-red-600" />
@@ -111,15 +110,20 @@ const Comment = ({ data, feedbackId }: CommentProps) => {
 					)}
 				</div>
 			</header>
-			<div className="text-slate-700 md:pl-16 text-sm mt-4 ">{content}</div>
-			{replies && (
+			<div className="text-slate-700  text-sm my-4  ">
+				{content}
+			</div>
+			{/* {replies && (
 				<div className="pl-6 md:ml-10 border-l mt-4 md:mt-8 border-l-slate-300">
 					{replies.map((r) => (
-						<Reply key={r.content} data={r} />
+						<Reply
+							key={r.content}
+							data={r}
+						/>
 					))}
 				</div>
-			)}
-			{replyActive && (
+			)} */}
+			{/* {replyActive && (
 				<div className="flex flex-col gap-y-3 mt-4 md:mt-6 md:pl-16">
 					<textarea
 						onChange={onChangeHandler}
@@ -127,16 +131,17 @@ const Comment = ({ data, feedbackId }: CommentProps) => {
 						placeholder={`replying to @${user.username}`}
 						className="flex-1 p-4 placeholder:text-sm text-sm  focus:outline-blue-600 outline-1 border border-slate-500 rounded-md"
 						cols={30}
-						rows={3}
-					></textarea>
+						rows={3}></textarea>
 					<div className="flex  justify-end gap-x-4">
 						<Button onClick={() => setReplyActive(false)}>cancel</Button>
-						<Button onClick={postReply} variant="blue">
+						<Button
+							onClick={postReply}
+							variant="blue">
 							Post Reply
 						</Button>
 					</div>
 				</div>
-			)}
+			)} */}
 		</div>
 	);
 };
